@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="wrap">
+    <h1>DRF API Test!</h1>
+    <div class="artists-container">
+      <h2>Artist List</h2>
+    </div>
+  </div>
+
+
+    <div id="template-artist">
+      <span class="artist-melon-id"></span>
+      <span class="artist-name"></span>
+    </div>
+
+
+  <script src="js/axios.js"></script>
+  <script src="js/jquery-3.3.1.min.js"></script>
+
+  <script>
+  // API에 HTTP GET요청
+  // 브라우저에서 막아서 오류가 생김(3000 -> 8000 요청)
+  // 서버에서 CORS 미리 설정함 그래야 프론트엔드 개발자가 사용할 수 있음
+    axios.get('http://localhost:8000/api/artist/')
+    .then(function (response) {
+      var artists = response.data.artists;
+
+      // console.log(response.data);
+      for (var i=0; i < artists.length; i++) {
+        var currentArtists = artists[i];
+        console.log(currentArtists);
+
+        var curArtistElement = $('#template-artist').clone();
+        curArtistElement.find('.artist-melon-id').text(currentArtists.melon_id);
+        curArtistElement.find('.artist-name').text(currentArtists.name);
+        $('.artists-container').append(curArtistElement);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  </script>
+  
+</body>
+</html>
